@@ -1,10 +1,479 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Mi página</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebrito City | Por un mundo mejor</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #070b14;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* ===== FONDO DE LA CIUDAD ===== */
+
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 30%, #243c70 0%, #101b35 35%, #070b14 75%);
+        }
+
+        /* Luna */
+        .moon {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: #f4f1d0;
+            top: 12%;
+            right: 13%;
+            box-shadow: 0 0 60px rgba(255, 244, 190, 0.45);
+        }
+
+        /* Estrellas */
+        .stars {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, white 1px, transparent 1px),
+                radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 90px 90px, 140px 140px;
+            background-position: 10px 20px, 50px 70px;
+            opacity: 0.45;
+        }
+
+        /* Ciudad */
+        .city {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 42%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .building {
+            position: relative;
+            background: linear-gradient(to bottom, #111b31, #050811);
+            border-top: 2px solid #263c63;
+            box-shadow: inset 0 0 25px rgba(40, 70, 120, 0.18);
+        }
+
+        .building::after {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    #ffd86b 0px,
+                    #ffd86b 5px,
+                    transparent 5px,
+                    transparent 18px
+                );
+            opacity: 0.65;
+        }
+
+        .b1 { width: 8%; height: 42%; }
+        .b2 { width: 7%; height: 65%; }
+        .b3 { width: 9%; height: 52%; }
+        .b4 { width: 6%; height: 82%; }
+        .b5 { width: 10%; height: 48%; }
+
+        .b6 {
+            width: 9%;
+            height: 92%;
+            border-top: 3px solid #d9ad4c;
+        }
+
+        .b7 { width: 7%; height: 58%; }
+        .b8 { width: 9%; height: 73%; }
+        .b9 { width: 7%; height: 46%; }
+        .b10 { width: 10%; height: 67%; }
+
+        /* ===== HERO ===== */
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+            padding: 30px;
+            margin-top: -80px;
+        }
+
+        .small-title {
+            color: #e9c765;
+            letter-spacing: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(60px, 11vw, 150px);
+            line-height: 0.9;
+            letter-spacing: -5px;
+            font-weight: 900;
+            text-shadow:
+                0 0 30px rgba(255, 215, 100, 0.18),
+                0 10px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .gold {
+            color: #f0ca61;
+        }
+
+        .slogan {
+            margin-top: 25px;
+            font-size: clamp(20px, 3vw, 34px);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .description {
+            max-width: 650px;
+            margin: 25px auto;
+            color: #b9c3d6;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            background: #e8c45d;
+            color: #080b12;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(232, 196, 93, 0.2);
+        }
+
+        .button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(232, 196, 93, 0.35);
+        }
+
+        /* ===== SECCIÓN DATOS ===== */
+
+        .section {
+            padding: 100px 7%;
+            background:
+                linear-gradient(#070b14, #0b1220);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-title span {
+            color: #e8c45d;
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .section-title h2 {
+            font-size: clamp(35px, 5vw, 60px);
+            margin-top: 10px;
+        }
+
+        .cards {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.035);
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(232, 196, 93, 0.5);
+            background: rgba(232, 196, 93, 0.06);
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 20px;
+        }
+
+        .number {
+            font-size: 38px;
+            font-weight: 900;
+            color: #f0ca61;
+        }
+
+        .card h3 {
+            margin-top: 8px;
+            font-size: 18px;
+        }
+
+        .card p {
+            margin-top: 12px;
+            color: #9da9bd;
+            line-height: 1.5;
+        }
+
+        /* ===== CIUDAD ===== */
+
+        .about {
+            max-width: 1000px;
+            margin: 100px auto 0;
+            padding: 50px;
+            border-radius: 30px;
+            background:
+                linear-gradient(135deg, rgba(232,196,93,0.08), rgba(255,255,255,0.025));
+            border: 1px solid rgba(232,196,93,0.15);
+        }
+
+        .about h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .about h2 span {
+            color: #e8c45d;
+        }
+
+        .about p {
+            color: #b4bfd1;
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        /* ===== PIE ===== */
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: #050811;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        footer .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: #e8c45d;
+        }
+
+        footer p {
+            margin-top: 10px;
+            color: #7d899d;
+        }
+
+        .footer-slogan {
+            margin-top: 20px;
+            color: #c6cedc;
+            font-style: italic;
+        }
+
+        @media (max-width: 700px) {
+            .moon {
+                width: 100px;
+                height: 100px;
+                right: 8%;
+            }
+
+            .city {
+                height: 30%;
+            }
+
+            .hero-content {
+                margin-top: -30px;
+            }
+
+            .about {
+                padding: 30px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>¡Bienvenido a mi página!</h1>
-    <p>Esta página fue creada con GitHub Pages.</p>
+
+    <!-- ===== PORTADA ===== -->
+
+    <header class="hero">
+
+        <div class="stars"></div>
+        <div class="moon"></div>
+
+        <div class="hero-content">
+
+            <div class="small-title">
+                Bienvenido a
+            </div>
+
+            <h1>
+                Sebrito <span class="gold">City</span>
+            </h1>
+
+            <div class="slogan">
+                Por un mundo mejor
+            </div>
+
+            <p class="description">
+                Una ciudad construida para el futuro, donde la innovación,
+                la naturaleza y el progreso trabajan juntos para crear
+                un lugar mejor para todos.
+            </p>
+
+            <a href="#datos" class="button">
+                Descubrir la ciudad ↓
+            </a>
+
+        </div>
+
+        <!-- Skyline -->
+        <div class="city">
+            <div class="building b1"></div>
+            <div class="building b2"></div>
+            <div class="building b3"></div>
+            <div class="building b4"></div>
+            <div class="building b5"></div>
+            <div class="building b6"></div>
+            <div class="building b7"></div>
+            <div class="building b8"></div>
+            <div class="building b9"></div>
+            <div class="building b10"></div>
+        </div>
+
+    </header>
+
+
+    <!-- ===== DATOS ===== -->
+
+    <section class="section" id="datos">
+
+        <div class="section-title">
+            <span>La ciudad</span>
+            <h2>Datos de Sebrito City</h2>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">👥</div>
+                <div class="number">11 M</div>
+                <h3>Habitantes</h3>
+                <p>
+                    Una enorme población que convierte a Sebrito City
+                    en una de las grandes ciudades del mundo de Sebrito.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🏙️</div>
+                <div class="number">20</div>
+                <h3>Rascacielos</h3>
+                <p>
+                    Un impresionante horizonte urbano formado por
+                    grandes edificios y modernos rascacielos.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">✈️</div>
+                <div class="number">245.000</div>
+                <h3>m² de aeropuerto</h3>
+                <p>
+                    Un gran aeropuerto que conecta Sebrito City
+                    con otras regiones y ciudades.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🏗️</div>
+                <div class="number">40 M</div>
+                <h3>Capacidad futura</h3>
+                <p>
+                    La ciudad está preparada para continuar creciendo
+                    y alcanzar una capacidad de hasta 40 millones.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="about">
+
+            <h2>
+                Una ciudad para <span>el futuro</span>
+            </h2>
+
+            <p>
+                Sebrito City es una de las ciudades más importantes
+                del mundo de Sebrito. Su desarrollo combina grandes
+                construcciones urbanas con proyectos destinados a
+                mejorar la calidad de vida de sus habitantes.
+            </p>
+
+            <br>
+
+            <p>
+                La ciudad cuenta con proyectos de áreas verdes,
+                fuentes de agua, reciclaje, universidades, hospitales
+                y sistemas de seguridad. Todo esto forma parte de una
+                visión de ciudad moderna, sostenible y preparada para
+                las próximas generaciones.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===== FOOTER ===== -->
+
+    <footer>
+
+        <div class="logo">
+            Sebrito City
+        </div>
+
+        <p>
+            La ciudad del futuro.
+        </p>
+
+        <div class="footer-slogan">
+            “Por un mundo mejor”
+        </div>
+
+    </footer>
+
 </body>
 </html>
